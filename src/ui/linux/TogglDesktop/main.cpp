@@ -8,6 +8,8 @@
 #include <QFontDatabase>
 #include <qtwebengineglobal.h>
 
+#include <QQmlApplicationEngine>
+
 #include <stdint.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -22,8 +24,6 @@
 #include "./mainwindowcontroller.h"
 #include "./toggl.h"
 #include "./urls.h"
-
-MainWindowController *w = nullptr;
 
 class TogglApplication : public SingleApplication {
  public:
@@ -110,17 +110,11 @@ int main(int argc, char *argv[]) try {
         toggl::urls::SetUseStagingAsBackend(true);
     }
 
-    w = new MainWindowController(nullptr,
-                                 parser.value(logPathOption),
-                                 parser.value(dbPathOption),
-                                 parser.value(scriptPathOption));
+    QQmlApplicationEngine engine;
+    qDebug() << "Load";
+    engine.load(QUrl(QStringLiteral("qrc:/MainWindow.qml")));
+    qDebug() << "Loaded";
 
-    a.w = w;
-
-    w->show();
-    if (parser.isSet(forceOption)) {
-        QTimer::singleShot(1, w, &MainWindowController::hide);
-    }
     return a.exec();
 } catch (std::exception &e) {  // NOLINT
     TogglApi::notifyBugsnag("std::exception", e.what(), "main");
