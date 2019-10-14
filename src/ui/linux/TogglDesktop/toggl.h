@@ -7,6 +7,7 @@
 #include <QUrl>
 #include <QVector>
 #include <QRect>
+#include <QQmlListProperty>
 
 #include <stdint.h>
 
@@ -20,6 +21,7 @@ class CountryView;
 
 class TogglApi : public QObject {
     Q_OBJECT
+    Q_PROPERTY(QQmlListProperty<CountryView> countries READ countries NOTIFY countriesChanged)
 
  public:
     TogglApi(
@@ -41,6 +43,16 @@ class TogglApi : public QObject {
 
     bool shutdown;
 
+    QQmlListProperty<CountryView> countries();
+signals:
+    void countriesChanged();
+private:
+    QList<CountryView*> countries_;
+
+ public slots:
+    void setCountries(QVector<CountryView *> list);
+
+///////////////////////////////////////////////////////
     bool startEvents();
 
     void clear();
@@ -310,9 +322,6 @@ class TogglApi : public QObject {
 
     void setProjectColors(
         QVector<char *> list);
-
-    void setCountries(
-        QVector<CountryView *> list);
 
  private:
     void *ctx;
