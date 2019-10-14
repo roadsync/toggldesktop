@@ -348,7 +348,6 @@ void TogglApi::importTimeEntries(QVector<TimeEntryView *> list) {
         i->deleteLater();
     timeEntries_.clear();
     for (auto i : list) {
-        qDebug() << "Importing" << i->Description;
         timeEntries_.append(i);
     }
     emit timeEntriesChanged();
@@ -556,12 +555,11 @@ QString TogglApi::userEmail() {
     return res;
 }
 
-QString TogglApi::start(
-    const QString description,
+QString TogglApi::start(const QString description,
     const QString duration,
     const uint64_t task_id,
     const uint64_t project_id,
-    const char_t *tags,
+    const QString tags,
     const bool_t billable) {
     char *guid = toggl_start(ctx,
                              description.toStdString().c_str(),
@@ -569,7 +567,7 @@ QString TogglApi::start(
                              task_id,
                              project_id,
                              nullptr /* project guid */,
-                             tags /* tags */,
+                             tags.toStdString().c_str() /* tags */,
                              false,
                              0,
                              0);

@@ -78,7 +78,7 @@ private:
         const QString duration,
         const uint64_t task_id,
         const uint64_t project_id,
-        const char_t *tags,
+        const QString tags,
         const bool_t billable);
 
     bool stop();
@@ -230,8 +230,6 @@ private:
 
     bool discardTimeAndContinue(const QString guid,
                                 const uint64_t at);
-
-    bool runScriptFile(const QString filename);
 
     static const QString formatDurationInSecondsHHMMSS(
         const int64_t duration);
