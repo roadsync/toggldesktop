@@ -111,6 +111,8 @@ int main(int argc, char *argv[]) try {
         toggl::urls::SetUseStagingAsBackend(true);
     }
 
+    qputenv("QML_DISABLE_DISTANCEFIELD", "1");
+
     QQmlApplicationEngine engine;
     qmlRegisterType<CountryView>("toggl", 1, 0, "Country");
     qmlRegisterType<TimeEntryView>("toggl", 1, 0, "TimeEntry");
