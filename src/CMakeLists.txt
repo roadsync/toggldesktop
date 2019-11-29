@@ -30,6 +30,7 @@ include_directories(
     ${LUA_INCLUDE_DIRS}
     ${JSONCPP_INCLUDE_DIRS}
     ${POCO_INCLUDE_DIRS}
+    $ENV{OPENSSL_ROOT_DIR}/include
 )
 
 # TogglDesktopLibrary sources
@@ -62,7 +63,7 @@ set(LIBRARY_SOURCE_FILES
     context.cc
     error.cc
     feedback.cc
-    get_focused_window_linux.cc
+    error.cc
     gui.cc
     help_article.cc
     https_client.cc
@@ -81,11 +82,35 @@ set(LIBRARY_SOURCE_FILES
     onboarding_service.cpp
 )
 
+if(APPLE)
+    set(LIBRARY_SOURCE_FILES
+        ${LIBRARY_SOURCE_FILES}
+        get_focused_window_mac.cc
+        lib/osx/Kopsik/MacOSVersionChecker.mm
+    )
+    set(ADDITIONAL_LIBRARIES
+        "-framework Foundation"
+        "-framework CFNetwork"
+        "-framework AppKit"
+    )
+elseif(WIN32)
+    set(LIBRARY_SOURCE_FILES
+        ${LIBRARY_SOURCE_FILES}
+        get_focused_window_windows.cc
+    )
+else()
+    set(LIBRARY_SOURCE_FILES
+        ${LIBRARY_SOURCE_FILES}
+        get_focused_window_linux.cc
+    )
+endif()
+
 # Set up compilation targets
 add_library(TogglDesktopLibrary SHARED ${LIBRARY_SOURCE_FILES})
 
 # And list the dependencies between them (and system libraries)
 target_link_libraries(TogglDesktopLibrary PRIVATE
+    ${ADDITIONAL_LIBRARIES}
     ${JSONCPP_LIBRARIES}
     ${LUA_LIBRARIES}
     PocoCrypto PocoDataSQLite PocoNetSSL
