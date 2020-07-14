@@ -187,14 +187,14 @@ void on_display_timer_state(
 }
 
 void on_display_idle_notification(
-    const char_t*guid,
-    const char_t*since,
-    const char_t*duration,
+    const char_t *guid,
+    const char_t *since,
+    const char_t *duration,
     const int64_t started,
-    const char *description,
-    const char *project,
-    const char *task,
-    const char *projectColor) {
+    const char_t *description,
+    const char_t *project,
+    const char_t *task,
+    const char_t *projectColor) {
     TogglApi::instance->displayIdleNotification(
         toQString(guid),
         toQString(since),
@@ -635,7 +635,7 @@ QString TogglApi::start(const QString description,
                              task_id,
                              project_id,
                              nullptr /* project guid */,
-                             tags.toStdString().c_str() /* tags */,
+                             toLocalString(tags) /* tags */,
                              false,
                              0,
                              0);

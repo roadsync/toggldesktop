@@ -81,7 +81,7 @@ void setOptions(const TogglApplication &a) {
     parser.addOption(forceOption);
 
     if (parser.isSet(forceStagingOption)) {
-        toggl::urls::SetUseStagingAsBackend(true);
+        toggl_set_staging_override(true);
     }
 
     parser.process(a);

@@ -20,6 +20,9 @@ option(INSTALL_HIRES_ICONS "Do not install icons over 512x512" OFF)
 option(TOGGL_BUILD_TESTS "Build the Toggl test suite" ON)
 
 set(ENV{OPENSSL_ROOT_DIR} ${OPENSSL_ROOT_DIR})
+if (NOT "${OPENSSL_ROOT_DIR}" STREQUAL "")
+    include_directories("${OPENSSL_ROOT_DIR}/include")
+endif()
 
 if ("${TOGGL_VERSION}" STREQUAL "7.0.0")
     find_package (Git)
