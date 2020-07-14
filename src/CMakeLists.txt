@@ -86,6 +86,7 @@ if(APPLE)
     set(LIBRARY_SOURCE_FILES
         ${LIBRARY_SOURCE_FILES}
         get_focused_window_mac.cc
+        lib/osx/Kopsik/MacOSVersionChecker.mm
     )
     set(ADDITIONAL_LIBRARIES
         "-framework Foundation"
