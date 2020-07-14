@@ -40,6 +40,7 @@ install(TARGETS Bugsnag DESTINATION ${TOGGL_INTERNAL_LIB_DIR})
 if(NOT Poco_FOUND)
     # to avoid that annoying check
     option(DISABLE_CPP14 "" ON)
+    set(CMAKE_CXX_STANDARD 11)
     # to not build unnecessary clutter
     option(ENABLE_XML "" OFF)
     option(ENABLE_JSON "" OFF)
